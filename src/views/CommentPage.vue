@@ -145,7 +145,7 @@ export default {
     // 保存编辑
     saveEdit () {
       var params = new URLSearchParams()
-      params.append('d', this.form.id)
+      params.append('id', this.form.id)
       params.append('userId', this.form.userId)
       if (this.form.songId === null) {
         params.append('songId', '')

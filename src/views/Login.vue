@@ -2,12 +2,7 @@
   <div class="login-wrap">
     <div class="ms-title">轻云出悦 后台管理</div>
     <div class="ms-login">
-      <el-form
-        :model="ruleForm"
-        :rules="rules"
-        ref="ruleForm"
-        class="demo-ruleForm"
-      >
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
         <el-form-item prop="username">
           <el-input v-model="ruleForm.username" placeholder="username"></el-input>
         </el-form-item>
@@ -29,54 +24,62 @@
 </template>
 
 <script>
-import  qs from 'qs'
+import qs from "qs";
 export default {
-  data: function () {
+  data: function() {
     return {
       ruleForm: {
-        username: 'admin',
-        password: '123'
+        username: "admin",
+        password: "123"
       },
       rules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
+          { required: true, message: "请输入用户名", trigger: "blur" }
         ],
-        password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
       }
-    }
+    };
   },
   methods: {
-    submitForm () {
-      let _this = this
-      var params = new URLSearchParams()
-      params.append('name', _this.ruleForm.username)
-      params.append('password', _this.ruleForm.password)
-      _this.$axios
-        .post(`${_this.$store.state.HOST}/api/loginadmin`, params)
-        .then(res => {
-          if (res.data.code === 1) {
-            this.$router.push('/Info')
-            this.$notify({
-              title: '欢迎回来',
-              type: 'success'
-            })
-          } else {
-            this.$notify({
-              title: '登录失败',
-              type: 'error'
-            })
+    submitForm() {
+      let _this = this;
+      var params = new URLSearchParams();
+      params.append("name", _this.ruleForm.username);
+      params.append("password", _this.ruleForm.password);
+      _this
+        .$axios({
+          method: "post",
+          url: `${_this.$store.state.HOST}/api/loginadmin`,
+          dataType:"json",
+          data: {
+            name: _this.ruleForm.username,
+            password: _this.ruleForm.password
           }
         })
-        .catch(failResponse => {})
+        .then(res => {
+          if (res.data.code === 1) {
+            this.$router.push("/Info");
+            this.$notify({
+              title: "欢迎回来",
+              type: "success"
+            });
+          } else {
+            this.$notify({
+              title: "登录失败",
+              type: "error"
+            });
+          }
+        })
+        .catch(failResponse => {});
     }
   }
-}
+};
 </script>
 
 <style scoped>
 .login-wrap {
   position: relative;
-  background: url('../assets/img/background.jpg');
+  background: url("../assets/img/background.jpg");
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
