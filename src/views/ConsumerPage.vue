@@ -448,7 +448,7 @@ export default {
     // 确定删除
     deleteRow () {
       var _this = this
-      _this.$axios.get(`${_this.$store.state.HOST}/api/deleteUsers?id=${_this.idx}`)
+      _this.$axios.get(`${_this.$store.state.HOST}/api/deleteUsers/${_this.idx}`)
         .then(res => {
           if (res.data) {
             _this.getData()
