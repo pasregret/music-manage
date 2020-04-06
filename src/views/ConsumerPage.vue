@@ -347,7 +347,7 @@ export default {
       this.currentPage = val
     },
     uploadUrl (id) {
-      return `${this.$store.state.HOST}/api/updateUserImg?id=${id}`
+      return `${this.$store.state.HOST}/api/updateUserImg/${id}`
     },
     // 获取用户信息
     getData () {

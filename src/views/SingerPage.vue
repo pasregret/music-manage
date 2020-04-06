@@ -198,7 +198,7 @@ export default {
       this.currentPage = val
     },
     uploadUrl (id) {
-      return `${this.$store.state.HOST}/api/updateSingerImg?id=${id}`
+      return `${this.$store.state.HOST}/api/updateSingerImg/${id}`
     },
     addsinger () {
       let _this = this
@@ -289,7 +289,7 @@ export default {
     // 确定删除
     deleteRow () {
       var _this = this
-      _this.$axios.get(`${_this.$store.state.HOST}/api/deleteSingers?id=${_this.idx}`)
+      _this.$axios.get(`${_this.$store.state.HOST}/api/deleteSingers/${_this.idx}`)
         .then(res => {
           if (res.data) {
             _this.getData()

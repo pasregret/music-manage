@@ -172,7 +172,7 @@ export default {
   mixins: [mixin],
   methods: {
     uploadUrl (id) {
-      return `${this.$store.state.HOST}/api/updateSongListImg?id=${id}`
+      return `${this.$store.state.HOST}/api/updateSongListImg/${id}`
     },
     // 获取歌单信息
     getData () {
@@ -261,7 +261,7 @@ export default {
     // 确定删除
     deleteRow () {
       let _this = this
-      _this.$axios.get(`${_this.$store.state.HOST}/api/deleteSongLists?id=${_this.idx}`)
+      _this.$axios.get(`${_this.$store.state.HOST}/api/deleteSongLists/${_this.idx}`)
         .then(res => {
           if (res.data) {
             _this.getData()

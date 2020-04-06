@@ -82,7 +82,7 @@ export default {
     getData () {
       var _this = this
       _this.$axios
-        .get(`${_this.$store.state.HOST}/myCollection?userId=${this.$route.query.id}`)
+        .get(`${_this.$store.state.HOST}/myCollection/${this.$route.query.id}`)
         .then(res => {
           _this.tableData = []
           for (let item of res.data) {
@@ -93,7 +93,7 @@ export default {
     // 通过歌曲ID获取歌曲
     getSongList (id) {
       var _this = this
-      _this.$axios.get(`${_this.$store.state.HOST}/listSongsOfSongs?id=${id}`)
+      _this.$axios.get(`${_this.$store.state.HOST}/listSongsOfSongs/${id}`)
         .then(function (res) {
           _this.tableData.push(res.data[0])
           _this.tempDate.push(res.data[0])
@@ -105,7 +105,7 @@ export default {
     // 删除一首歌曲
     deleteRow () {
       var _this = this
-      _this.$axios.get(`${_this.$store.state.HOST}/api/deleteCollects?id=${_this.idx}`)
+      _this.$axios.get(`${_this.$store.state.HOST}/api/deleteCollects/${_this.idx}`)
         .then(res => {
           if (res.data) {
             _this.getData()
