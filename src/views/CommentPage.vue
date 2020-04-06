@@ -57,80 +57,81 @@
 </template>
 
 <script>
-import { mixin } from '../mixins'
+import { mixin } from "../mixins";
 
 export default {
-  name: 'comment-page',
+  name: "comment-page",
   mixins: [mixin],
-  data () {
+  data() {
     return {
       tableData: [],
       tempDate: [],
       multipleSelection: [],
       editVisible: false,
       delVisible: false,
-      select_word: '',
+      select_word: "",
       form: {
-        id: '',
-        userId: '',
-        songId: '',
-        songListId: '',
-        content: '',
-        type: '',
-        up: ''
+        id: "",
+        userId: "",
+        songId: "",
+        songListId: "",
+        content: "",
+        type: "",
+        up: ""
       },
       idx: -1
-    }
+    };
   },
   watch: {
-    select_word: function () {
-      if (this.select_word === '') {
-        this.tableData = this.tempDate
+    select_word: function() {
+      if (this.select_word === "") {
+        this.tableData = this.tempDate;
       } else {
-        this.tableData = []
+        this.tableData = [];
         for (let item of this.tempDate) {
           if (item.name.includes(this.select_word)) {
-            this.tableData.push(item)
+            this.tableData.push(item);
           }
         }
       }
     }
   },
-  created () {
-    this.getData()
+  created() {
+    this.getData();
   },
   methods: {
-    getData () {
-      var _this = this
-      _this.tableData = []
-      _this.tempDate = []
-      let url = ''
+    getData() {
+      var _this = this;
+      _this.tableData = [];
+      _this.tempDate = [];
+      let url = "";
       if (_this.$route.query.type === 0) {
-        url = `${_this.$store.state.HOST}/songComments/`
+        url = `${_this.$store.state.HOST}/songComments/`;
       } else if (_this.$route.query.type === 1) {
-        url = `${_this.$store.state.HOST}/songListComments/`
+        url = `${_this.$store.state.HOST}/songListComments/`;
       }
       _this.$axios.get(url + _this.$route.query.id).then(res => {
         for (let item of res.data) {
-          _this.getUsers(item.userId, item)
+          _this.getUsers(item.userId, item);
         }
-      })
+      });
     },
-    getUsers (id, item) {
-      let _this = this
-      _this.$axios.get(`${_this.$store.state.HOST}/commentOfConsumer/${id}`)
-        .then(function (res) {
-          let o = item
-          o.name = res.data[0].username
-          _this.tableData.push(o)
-          _this.tempDate.push(o)
+    getUsers(id, item) {
+      let _this = this;
+      _this.$axios
+        .get(`${_this.$store.state.HOST}/commentOfConsumer/${id}`)
+        .then(function(res) {
+          let o = item;
+          o.name = res.data[0].username;
+          _this.tableData.push(o);
+          _this.tempDate.push(o);
         })
-        .catch(function (error) {
-          console.log(error)
-        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
-    handleEdit (row) {
-      this.idx = row.id
+    handleEdit(row) {
+      this.idx = row.id;
       this.form = {
         id: row.id,
         userId: row.userId,
@@ -139,68 +140,66 @@ export default {
         content: row.content,
         type: row.type,
         up: row.up
-      }
-      this.editVisible = true
+      };
+      this.editVisible = true;
     },
     // 保存编辑
-    saveEdit () {
-      var params = new URLSearchParams()
-      params.append('id', this.form.id)
-      params.append('userId', this.form.userId)
-      if (this.form.songId === null) {
-        params.append('songId', '')
-      } else {
-        params.append('songId', this.form.songId)
-      }
-      if (this.form.songListId === null) {
-        params.append('songListId', '')
-      } else {
-        params.append('songListId', this.form.songListId)
-      }
-      params.append('content', this.form.content)
-      params.append('type', this.form.type)
-      params.append('up', this.form.up)
-      this.$axios.post(`${this.$store.state.HOST}/api/updateCommentMsgs`, params)
+    saveEdit() {
+      this.$axios({
+        url: `${this.$store.state.HOST}/api/updateCommentMsgs`,
+        method: "post",
+        dataType: "json",
+        data: {
+          id: this.form.id,
+          userId: this.form.userId,
+          songId: this.form.songId === null ? "" : this.form.songId,
+          songListId: this.form.songListId === null ? "" : this.form.songListId,
+          content: this.form.content,
+          type: this.form.type,
+          up: this.form.up
+        }
+      })
         .then(res => {
           if (res.data.code === 1) {
-            this.getData()
+            this.getData();
             this.$notify({
-              title: '编辑成功',
-              type: 'success'
-            })
+              title: "编辑成功",
+              type: "success"
+            });
           } else {
             this.$notify({
-              title: '编辑失败',
-              type: 'error'
-            })
+              title: "编辑失败",
+              type: "error"
+            });
           }
         })
-        .catch(failResponse => {})
-      this.editVisible = false
+        .catch(failResponse => {});
+      this.editVisible = false;
     },
     // 确定删除
-    deleteRow () {
-      var _this = this
-      _this.$axios.get(`${_this.$store.state.HOST}/api/deleteComments/${_this.idx}`)
+    deleteRow() {
+      var _this = this;
+      _this.$axios
+        .get(`${_this.$store.state.HOST}/api/deleteComments/${_this.idx}`)
         .then(res => {
           if (res.data) {
-            _this.getData()
+            _this.getData();
             _this.$notify({
-              title: '删除成功',
-              type: 'success'
-            })
+              title: "删除成功",
+              type: "success"
+            });
           } else {
             _this.$notify({
-              title: '删除失败',
-              type: 'error'
-            })
+              title: "删除失败",
+              type: "error"
+            });
           }
         })
-        .catch(failResponse => {})
-      _this.delVisible = false
+        .catch(failResponse => {});
+      _this.delVisible = false;
     }
   }
-}
+};
 </script>
 
 <style scoped>

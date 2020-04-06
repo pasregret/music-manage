@@ -43,9 +43,6 @@ export default {
   methods: {
     submitForm() {
       let _this = this;
-      var params = new URLSearchParams();
-      params.append("name", _this.ruleForm.username);
-      params.append("password", _this.ruleForm.password);
       _this
         .$axios({
           method: "post",
@@ -60,7 +57,7 @@ export default {
           if (res.data.code === 1) {
             this.$router.push("/Info");
             this.$notify({
-              title: "欢迎回来",
+              title: "欢迎"+_this.ruleForm.username+"回来",
               type: "success"
             });
           } else {
