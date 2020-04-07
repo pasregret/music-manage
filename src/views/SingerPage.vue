@@ -6,7 +6,15 @@
         <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
         <el-button type="primary" @click="centerDialogVisible = true">添加歌手</el-button>
       </div>
-      <el-table ref="multipleTable" stripe border style="width: 100%" height="500px" :data="data" @selection-change="handleSelectionChange">
+      <el-table
+        ref="multipleTable"
+        stripe
+        border
+        style="width: 100%"
+        height="500px"
+        :data="data"
+        @selection-change="handleSelectionChange"
+      >
         <el-table-column type="selection" width="40"></el-table-column>
         <el-table-column label="歌手图片" width="110">
           <template slot-scope="scope">
@@ -49,8 +57,8 @@
           layout="total, prev, pager, next"
           :current-page="currentPage"
           :page-size="pageSize"
-          :total="tableData.length">
-        </el-pagination>
+          :total="tableData.length"
+        ></el-pagination>
       </div>
     </div>
 
@@ -132,20 +140,20 @@
 </template>
 
 <script>
-import { mixin } from '../mixins'
+import { mixin } from "../mixins";
 
 export default {
-  name: 'singer-page',
+  name: "singer-page",
   mixins: [mixin],
-  data () {
+  data() {
     return {
       registerForm: {
         // 添加框信息
-        name: '',
-        sex: '',
-        birth: '',
-        location: '',
-        introduction: ''
+        name: "",
+        sex: "",
+        birth: "",
+        location: "",
+        introduction: ""
       },
       tableData: [],
       tempDate: [],
@@ -153,98 +161,115 @@ export default {
       centerDialogVisible: false,
       editVisible: false,
       delVisible: false,
-      select_word: '',
+      select_word: "",
       form: {
         // 编辑框信息
-        id: '',
-        name: '',
-        sex: '',
-        pic: '',
-        birth: '',
-        location: '',
-        introduction: ''
+        id: "",
+        name: "",
+        sex: "",
+        pic: "",
+        birth: "",
+        location: "",
+        introduction: ""
       },
       pageSize: 5, // 页数
       currentPage: 1, // 当前页
       idx: -1
-    }
+    };
   },
   computed: {
     // 计算当前表格中的数据
-    data () {
-      return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+    data() {
+      return this.tableData.slice(
+        (this.currentPage - 1) * this.pageSize,
+        this.currentPage * this.pageSize
+      );
     }
   },
   watch: {
-    select_word: function () {
-      if (this.select_word === '') {
-        this.tableData = this.tempDate
+    select_word: function() {
+      if (this.select_word === "") {
+        this.tableData = this.tempDate;
       } else {
-        this.tableData = []
+        this.tableData = [];
         for (let item of this.tempDate) {
           if (item.name.includes(this.select_word)) {
-            this.tableData.push(item)
+            this.tableData.push(item);
           }
         }
       }
     }
   },
-  created () {
-    this.getData()
+  created() {
+    this.getData();
   },
   methods: {
     // 获取当前页
-    handleCurrentChange (val) {
-      this.currentPage = val
+    handleCurrentChange(val) {
+      this.currentPage = val;
     },
-    uploadUrl (id) {
-      return `${this.$store.state.HOST}/api/updateSingerImg/${id}`
+    uploadUrl(id) {
+      return `${this.$store.state.HOST}/api/updateSingerImg/${id}`;
     },
-    addsinger () {
-      let _this = this
-      let d = _this.registerForm.birth
+    //添加歌手
+    addsinger() {
+      let _this = this;
+      let d = _this.registerForm.birth;
       var datetime =
-        d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
-      var params = new URLSearchParams()
-      params.append('name', this.registerForm.name)
-      params.append('sex', this.registerForm.sex)
-      params.append('pic', '/img/singerPic/hhh.jpg')
-      params.append('birth', datetime)
-      params.append('location', this.registerForm.location)
-      params.append('introduction', this.registerForm.introduction)
-      _this.$axios.post(`${_this.$store.state.HOST}/api/addSinger`, params)
-        .then(res => {
-          if (res.data.code === 1) {
-            _this.getData()
-            _this.registerForm = {}
-            _this.$notify({
-              title: '添加成功',
-              type: 'success'
-            })
-          } else {
-            _this.$notify({
-              title: '添加失败',
-              type: 'error'
-            })
+        d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+      var params = new URLSearchParams();
+      params.append("name", this.registerForm.name);
+      params.append("sex", this.registerForm.sex);
+      params.append("pic", "/img/singerPic/hhh.jpg");
+      params.append("birth", datetime);
+      params.append("location", this.registerForm.location);
+      params.append("introduction", this.registerForm.introduction);
+      _this
+        .$axios({
+          url: `${_this.$store.state.HOST}/api/addSinger`,
+          method: "post",
+          dataType: "json",
+          data: {
+            name: this.registerForm.name,
+            sex: this.registerForm.sex,
+            pic: "/img/singerPic/hhh.jpg",
+            birth: datetime,
+            location: this.registerForm.location,
+            introduction: this.registerForm.introduction
           }
         })
-        .catch(failResponse => {})
-      _this.centerDialogVisible = false
+        .then(res => {
+          if (res.data.code === 1) {
+            _this.getData();
+            _this.registerForm = {};
+            _this.$notify({
+              title: "添加成功",
+              type: "success"
+            });
+          } else {
+            _this.$notify({
+              title: "添加失败",
+              type: "error"
+            });
+          }
+        })
+        .catch(failResponse => {});
+      _this.centerDialogVisible = false;
     },
-    getData () {
-      var _this = this
-      _this.tableData = []
-      _this.tempDate = []
+    getData() {
+      var _this = this;
+      _this.tableData = [];
+      _this.tempDate = [];
       _this.$axios.get(`${_this.$store.state.HOST}/listSingers`).then(res => {
-        _this.tableData = res.data
-        _this.tempDate = res.data
-        _this.currentPage = 1
-      })
+        _this.tableData = res.data;
+        _this.tempDate = res.data;
+        _this.currentPage = 1;
+      });
     },
-    handleEdit (row) {
-      this.editVisible = true
-      this.idx = row.id
-      let datetime = row.birth
+    handleEdit(row) {
+      this.editVisible = true;
+      this.idx = row.id;
+      let datetime = row.birth;
       this.form = {
         id: row.id,
         name: row.name,
@@ -253,62 +278,78 @@ export default {
         birth: datetime,
         location: row.location,
         introduction: row.introduction
-      }
+      };
     },
     // 保存编辑
-    saveEdit () {
-      let _this = this
-      let d = new Date(_this.form.birth)
-      let datetime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
-      let params = new URLSearchParams()
-      params.append('id', _this.form.id)
-      params.append('name', _this.form.name)
-      params.append('sex', _this.form.sex)
-      params.append('pic', _this.form.pic)
-      params.append('birth', datetime)
-      params.append('location', _this.form.location)
-      params.append('introduction', _this.form.introduction)
-      _this.$axios.post(`${_this.$store.state.HOST}/api/updateSingerMsgs`, params)
+    saveEdit() {
+      let _this = this;
+      let d = new Date(_this.form.birth);
+      let datetime =
+        d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+      let params = new URLSearchParams();
+      params.append("id", _this.form.id);
+      params.append("name", _this.form.name);
+      params.append("sex", _this.form.sex);
+      params.append("pic", _this.form.pic);
+      params.append("birth", datetime);
+      params.append("location", _this.form.location);
+      params.append("introduction", _this.form.introduction);
+      _this
+        .$axios({
+          url: `${_this.$store.state.HOST}/api/updateSingerMsgs`,
+          method: "post",
+          dataType: "josn",
+          data: {
+            id: _this.form.id,
+            name: _this.form.name,
+            sex: _this.form.sex,
+            pic: _this.form.pic,
+            birth: datetime,
+            location: _this.form.location,
+            introduction: _this.form.introduction
+          }
+        })
         .then(res => {
           if (res.data.code === 1) {
-            _this.getData()
+            _this.getData();
             _this.$notify({
-              title: '编辑成功',
-              type: 'success'
-            })
+              title: "编辑成功",
+              type: "success"
+            });
           } else {
             _this.$notify({
-              title: '编辑失败',
-              type: 'error'
-            })
+              title: "编辑失败",
+              type: "error"
+            });
           }
         })
-        .catch(failResponse => {})
-      this.editVisible = false
+        .catch(failResponse => {});
+      this.editVisible = false;
     },
     // 确定删除
-    deleteRow () {
-      var _this = this
-      _this.$axios.get(`${_this.$store.state.HOST}/api/deleteSingers/${_this.idx}`)
+    deleteRow() {
+      var _this = this;
+      _this.$axios
+        .get(`${_this.$store.state.HOST}/api/deleteSingers/${_this.idx}`)
         .then(res => {
           if (res.data) {
-            _this.getData()
+            _this.getData();
             _this.$notify({
-              title: '删除成功',
-              type: 'success'
-            })
+              title: "删除成功",
+              type: "success"
+            });
           } else {
             _this.$notify({
-              title: '删除失败',
-              type: 'error'
-            })
+              title: "删除失败",
+              type: "error"
+            });
           }
         })
-        .catch(failResponse => {})
-      _this.delVisible = false
+        .catch(failResponse => {});
+      _this.delVisible = false;
     }
   }
-}
+};
 </script>
 
 <style scoped>
