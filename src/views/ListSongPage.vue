@@ -142,7 +142,7 @@ export default {
     addSong (id) {
       let _this = this
       let params = new URLSearchParams()
-      params.append('songId', id)
+      params.append('songId', id) 
       params.append('songListId', _this.$route.query.id)
       _this.$axios.post(`${_this.$store.state.HOST}/api/addListSong`, params)
         .then(res => {
