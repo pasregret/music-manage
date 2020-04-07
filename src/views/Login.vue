@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import qs from "qs";
 export default {
   data: function() {
     return {
