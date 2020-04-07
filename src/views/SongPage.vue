@@ -227,7 +227,7 @@ export default {
       _this.tableData = []
       _this.tempDate = []
       _this.$axios.get(`${_this.$store.state.HOST}/AllSongs`).then((res) => {
-        console.log('歌曲信息===========>', res.data)
+        // console.log('歌曲信息===========>', res.data)
         _this.tableData = res.data
         _this.tempDate = res.data
         _this.currentPage = 1
@@ -346,12 +346,24 @@ export default {
     // 保存编辑
     saveEdit () {
       var params = new URLSearchParams()
-      params.append('id', this.form.id)
-      params.append('singerId', this.form.singerId)
-      params.append('name', this.form.name)
+      params.append('id', this.form.id)                       
+      params.append('singerId', this.form.singerId)         
+      params.append('name', this.form.name)                        
       params.append('introduction', this.form.introduction)
-      params.append('lyric', this.form.lyric)
-      this.$axios.post(`${this.$store.state.HOST}/api/updateSongMsgs`, params)
+      params.append('lyric', this.form.lyric)                     
+      this.$axios({
+        url:`${this.$store.state.HOST}/api/updateSongMsgs`,
+        method:"post",
+        dataType:"json",
+        data:{
+          'id': this.form.id,                    
+          'singerId': this.form.singerId,       
+          'name': this.form.name,                
+          'introduction': this.form.introduction,
+          'lyric': this.form.lyric
+        }
+      
+      })
         .then(response => {
           if (response.data) {
             this.getData()
