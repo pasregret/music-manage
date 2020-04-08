@@ -111,7 +111,7 @@ export default {
         url = `${_this.$store.state.HOST}/songListComments/`;
       }
       _this.$axios.get(url + _this.$route.query.id).then(res => {
-        for (let item of res.data) {
+        for (let item of res.data.data) {
           _this.getUsers(item.userId, item);
         }
       });

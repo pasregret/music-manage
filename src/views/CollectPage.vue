@@ -89,7 +89,7 @@ export default {
         .get(`${_this.$store.state.HOST}/myCollection/${this.$route.query.id}`)
         .then(res => {
           _this.tableData = []
-          for (let item of res.data) {
+          for (let item of res.data.data) {
             _this.getSongList(item.songId)
           }
         })
