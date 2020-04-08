@@ -16,7 +16,7 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="40"></el-table-column>
-        <el-table-column label="歌手图片" width="100">
+        <el-table-column label="用户图片" width="100">
           <template slot-scope="scope">
             <img :src="getUrl(scope.row.avator)" alt style="width: 80px;" />
             <el-upload
@@ -431,16 +431,6 @@ export default {
       let d = _this.registerForm.birth;
       var datetime =
         d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-      // var params = new URLSearchParams();
-      // params.append("username", _this.registerForm.username);
-      // params.append("password", _this.registerForm.password);
-      // params.append("sex", _this.registerForm.sex);
-      // params.append("phone_num", _this.registerForm.phoneNum);
-      // params.append("email", _this.registerForm.email);
-      // params.append("birth", datetime);
-      // params.append("introduction", _this.registerForm.introduction);
-      // params.append("location", _this.registerForm.location);
-      // params.append("avator", "/img/user.jpg");
       _this
         .$axios({
           url: `${_this.$store.state.HOST}/api/signup`,
