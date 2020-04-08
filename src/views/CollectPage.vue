@@ -57,7 +57,7 @@ export default {
       multipleSelection: [], // 记录要删除的歌曲
       delVisible: false, // 显示删除框
       select_word: '', // 记录输入框输入的内容
-      idx: -1 // 记录当前要删除的歌曲
+      idx: -1, // 记录当前要删除的歌曲
     }
   },
   watch: {
@@ -78,6 +78,10 @@ export default {
     this.getData()
   },
   methods: {
+    handleDelete(id){
+      this.idx = id,
+      this.delVisible = true
+    },
     // 通过用户id获取用户收藏的歌曲id
     getData () {
       var _this = this
@@ -105,9 +109,9 @@ export default {
     // 删除一首歌曲
     deleteRow () {
       var _this = this
-      _this.$axios.get(`${_this.$store.state.HOST}/api/deleteCollects/${_this.idx}`)
+      _this.$axios.get(`${_this.$store.state.HOST}/api/deleteCollects/${this.idx}/${this.$route.query.id}`)
         .then(res => {
-          if (res.data) {
+          if (res.data.data) {
             _this.getData()
             _this.$notify({
               title: '删除成功',
