@@ -418,8 +418,8 @@ export default {
       _this.tableData = [];
       _this.tempDate = [];
       _this.$axios.get(`${_this.$store.state.HOST}/AllUsers`).then(res => {
-        _this.tableData = res.data;
-        _this.tempDate = res.data;
+        _this.tableData = res.data.data;
+        _this.tempDate = res.data.data;
         _this.currentPage = 1;
       });
     },
@@ -488,16 +488,6 @@ export default {
       let d = new Date(this.form.birth);
       var datetime =
         d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-      var params = new URLSearchParams();
-      params.append("id", this.form.id);
-      params.append("username", this.form.username);
-      params.append("password", this.form.password);
-      params.append("sex", this.form.sex);
-      params.append("phone_num", this.form.phoneNum);
-      params.append("email", this.form.email);
-      params.append("birth", datetime);
-      params.append("introduction", this.form.introduction);
-      params.append("location", this.form.location);
       this.$axios({
         url: `${this.$store.state.HOST}/api/updateUserMsgs`,
         method: "post",
@@ -537,7 +527,7 @@ export default {
       _this.$axios
         .get(`${_this.$store.state.HOST}/api/deleteUsers/${_this.idx}`)
         .then(res => {
-          if (res.data) {
+          if (res.data.data) {
             _this.getData();
             _this.$notify({
               title: "删除成功",

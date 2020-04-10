@@ -79,8 +79,8 @@ export default {
     getUser () {
       let _this = this
       _this.$axios.get(`${_this.$store.state.HOST}/AllUsers`).then((res) => {
-        _this.user = res.data
-        _this.userCount = res.data.length
+        _this.user = res.data.data
+        _this.userCount = res.data.data.length
         _this.userSex.rows[0]['总数'] = _this.setSex(1)
         _this.userSex.rows[1]['总数'] = _this.setSex(0)
       })
@@ -97,19 +97,19 @@ export default {
     getSinger () {
       let _this = this
       _this.$axios.get(`${_this.$store.state.HOST}/listSingers`).then((res) => {
-        _this.singerCount = res.data.length
+        _this.singerCount = res.data.data.length
       })
     },
     getSong () {
       let _this = this
       _this.$axios.get(`${_this.$store.state.HOST}/AllSongs`).then((res) => {
-        _this.songCount = res.data.length
+        _this.songCount = res.data.data.length
       })
     },
     getSongList () {
       let _this = this
       _this.$axios.get(`${_this.$store.state.HOST}/listSongLists`).then((res) => {
-        _this.songListCount = res.data.length
+        _this.songListCount = res.data.data.length
       })
     }
   }

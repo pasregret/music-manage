@@ -3,7 +3,7 @@
         <div class="container">
             <div class="handle-box">
                 <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-                <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+                <el-input v-model="select_word" placeholder="筛选相关用户" class="handle-input mr10"></el-input>
                 <el-button type="primary" @click="centerDialogVisible = true">添加歌曲</el-button>
             </div>
             <el-table :data="data" stripe border style="width: 100%" ref="multipleTable" height="500px" @selection-change="handleSelectionChange">
@@ -228,8 +228,8 @@ export default {
       _this.tempDate = []
       _this.$axios.get(`${_this.$store.state.HOST}/AllSongs`).then((res) => {
         // console.log('歌曲信息===========>', res.data)
-        _this.tableData = res.data
-        _this.tempDate = res.data
+        _this.tableData = res.data.data
+        _this.tempDate = res.data.data
         _this.currentPage = 1
       })
     },
@@ -365,7 +365,7 @@ export default {
       
       })
         .then(response => {
-          if (response.data) {
+          if (response.data.data) {
             this.getData()
             this.$notify({
               title: '编辑成功',
@@ -386,7 +386,7 @@ export default {
       var _this = this
       _this.$axios.get(`${_this.$store.state.HOST}/api/deleteSongs/${_this.idx}`)
         .then(response => {
-          if (response.data) {
+          if (response.data.data) {
             _this.getData()
             _this.$notify({
               title: '删除成功',

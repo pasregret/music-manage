@@ -217,13 +217,6 @@ export default {
       let d = _this.registerForm.birth;
       var datetime =
         d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-      var params = new URLSearchParams();
-      params.append("name", this.registerForm.name);
-      params.append("sex", this.registerForm.sex);
-      params.append("pic", "/img/singerPic/hhh.jpg");
-      params.append("birth", datetime);
-      params.append("location", this.registerForm.location);
-      params.append("introduction", this.registerForm.introduction);
       _this
         .$axios({
           url: `${_this.$store.state.HOST}/api/addSinger`,
@@ -261,8 +254,8 @@ export default {
       _this.tableData = [];
       _this.tempDate = [];
       _this.$axios.get(`${_this.$store.state.HOST}/listSingers`).then(res => {
-        _this.tableData = res.data;
-        _this.tempDate = res.data;
+        _this.tableData = res.data.data;
+        _this.tempDate = res.data.data;
         _this.currentPage = 1;
       });
     },
@@ -286,14 +279,6 @@ export default {
       let d = new Date(_this.form.birth);
       let datetime =
         d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-      let params = new URLSearchParams();
-      params.append("id", _this.form.id);
-      params.append("name", _this.form.name);
-      params.append("sex", _this.form.sex);
-      params.append("pic", _this.form.pic);
-      params.append("birth", datetime);
-      params.append("location", _this.form.location);
-      params.append("introduction", _this.form.introduction);
       _this
         .$axios({
           url: `${_this.$store.state.HOST}/api/updateSingerMsgs`,
@@ -332,7 +317,7 @@ export default {
       _this.$axios
         .get(`${_this.$store.state.HOST}/api/deleteSingers/${_this.idx}`)
         .then(res => {
-          if (res.data) {
+          if (res.data.data) {
             _this.getData();
             _this.$notify({
               title: "删除成功",

@@ -10,7 +10,7 @@
     <div class="container">
       <div class="handle-box">
         <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-        <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+        <el-input v-model="select_word" placeholder="筛选相关用户" class="handle-input mr10"></el-input>
       </div>
       <el-table
         :data="tableData"
@@ -182,7 +182,7 @@ export default {
       _this.$axios
         .get(`${_this.$store.state.HOST}/api/deleteComments/${_this.idx}`)
         .then(res => {
-          if (res.data) {
+          if (res.data.data) {
             _this.getData();
             _this.$notify({
               title: "删除成功",

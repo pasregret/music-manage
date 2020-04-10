@@ -11,7 +11,7 @@
     <div class="container">
       <div class="handle-box">
         <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-        <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+        <el-input v-model="select_word" placeholder="筛选相关用户" class="handle-input mr10"></el-input>
       </div>
       <el-table
         :data="tableData"
@@ -99,8 +99,8 @@ export default {
       var _this = this
       _this.$axios.get(`${_this.$store.state.HOST}/listSongsOfSongs/${id}`)
         .then(function (res) {
-          _this.tableData.push(res.data[0])
-          _this.tempDate.push(res.data[0])
+          _this.tableData.push(res.data.data[0])
+          _this.tempDate.push(res.data.data[0])
         })
         .catch(function (error) {
           console.log(error)
