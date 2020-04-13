@@ -185,7 +185,7 @@ export default {
   mixins: [mixin],
   methods: {
     uploadUrl(id) {
-      return `${this.$store.state.HOST}/api/updateSongListImg/${id}`;
+      return `${this.$store.state.HOST}/api/updateSongListImg?id=${id}`;
     },
     // 获取歌单信息
     getData() {

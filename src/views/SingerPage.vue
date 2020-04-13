@@ -209,7 +209,7 @@ export default {
       this.currentPage = val;
     },
     uploadUrl(id) {
-      return `${this.$store.state.HOST}/api/updateSingerImg/${id}`;
+      return `${this.$store.state.HOST}/api/updateSingerImg?id=${id}`;
     },
     //添加歌手
     addsinger() {

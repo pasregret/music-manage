@@ -245,11 +245,11 @@ export default {
     },
     // 更新歌曲图片
     uploadUrl (id) {
-      return `${this.$store.state.HOST}/api/updateSongPic/${id}`
+      return `${this.$store.state.HOST}/api/updateSongPic?id=${id}`
     },
     // 更新歌曲url
     uploadSongUrl (id) {
-      return `${this.$store.state.HOST}/api/updateSongUrl/${id}`
+      return `${this.$store.state.HOST}/api/updateSongUrl?id=${id}`
     },
     beforeSongUpload (file) {
       var testmsg = file.name.substring(file.name.lastIndexOf('.') + 1)

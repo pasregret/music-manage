@@ -410,7 +410,7 @@ export default {
       this.currentPage = val;
     },
     uploadUrl(id) {
-      return `${this.$store.state.HOST}/api/updateUserImg/${id}`;
+      return `${this.$store.state.HOST}/api/updateUserImg?id=${id}`;
     },
     // 获取用户信息
     getData() {
@@ -445,7 +445,7 @@ export default {
             birth: datetime,
             introduction: _this.registerForm.introduction,
             location: _this.registerForm.location,
-            avator: "/img/user.jpg"
+            avator: "img/user.jpg"
           }
         })
         .then(res => {
