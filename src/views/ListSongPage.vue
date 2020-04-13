@@ -111,7 +111,6 @@ export default {
       _this.tempDate = []
       _this.$axios.get(`${_this.$store.state.HOST}/listSongOfSingers/${_this.$route.query.id}`)
         .then(res => {
-          console.log(res.data)
           for (let item of res.data.data) {
             _this.getSong(item.songId)
           }
@@ -122,8 +121,8 @@ export default {
       let _this = this
       _this.$axios.get(`${_this.$store.state.HOST}/listSongsOfSongs/${id}`)
         .then(function (res) {
-          _this.tableData.push(res.data[0])
-          _this.tempDate.push(res.data[0])
+          _this.tableData.push(res.data.data[0])
+          _this.tempDate.push(res.data.data[0])
         })
         .catch(function (error) {
           console.log(error)
@@ -135,7 +134,7 @@ export default {
       var id = _this.registerForm.singerName + '-' + _this.registerForm.songName
       _this.$axios.get(`${_this.$store.state.HOST}/listSongsOfSearch/${id}`)
         .then(res => {
-          _this.addSong(res.data[0].id)
+          _this.addSong(res.data.data[0].id)
         })
     },
     // 添加歌曲

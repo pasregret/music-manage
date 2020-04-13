@@ -193,8 +193,8 @@ export default {
       _this.tableData = [];
       _this.tempDate = [];
       _this.$axios.get(`${_this.$store.state.HOST}/listSongLists`).then(res => {
-        _this.tableData = res.data;
-        _this.tempDate = res.data;
+        _this.tableData = res.data.data;
+        _this.tempDate = res.data.data;
         _this.currentPage = 1;
       });
     },
