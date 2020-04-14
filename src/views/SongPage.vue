@@ -270,14 +270,15 @@ export default {
     getSingerName () {
       let _this = this
       let value = document.getElementById('singerName').value
-      _this.$axios.get(`${_this.$store.state.HOST}/searachSingers/${value}`).then(function (res) {
-        if (!res.data.length) {
+      _this.$axios.get(`${_this.$store.state.HOST}/searachSingers/${value}`)
+      .then(function (res) {
+        if (!res.data.data.length) {
           _this.$notify({
             title: '系统暂无该该歌手',
             type: 'warning'
           })
         } else {
-          _this.addSong(res.data[0].id)
+          _this.addSong(res.data.data[0].id)
         }
       }).catch(function (error) {
         console.log(error)

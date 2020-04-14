@@ -122,7 +122,7 @@ export default {
         .get(`${_this.$store.state.HOST}/commentOfConsumer/${id}`)
         .then(function(res) {
           let o = item;
-          o.name = res.data[0].username;
+          o.name = res.data.data[0].username;
           _this.tableData.push(o);
           _this.tempDate.push(o);
         })
