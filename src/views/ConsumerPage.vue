@@ -497,7 +497,7 @@ export default {
           username: this.form.username,
           password: this.form.password,
           sex: this.form.sex,
-          phone_num: this.form.phoneNum,
+          phoneNum: this.form.phoneNum,
           email: this.form.email,
           birth: datetime,
           introduction: this.form.introduction,
